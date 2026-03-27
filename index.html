@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ShieldWallet</title>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.6.2/dist/ethers.min.js"></script>
+  <style>
+    body{
+      font-family: Arial;
+      background:#0e0e0e;
+      color:white;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+      margin:0;
+    }
+
+    .box{
+      width:380px;
+      background:#171717;
+      padding:25px;
+      border-radius:12px;
+    }
+
+    input{
+      width:100%;
+      padding:10px;
+      margin-top:6px;
+      margin-bottom:16px;
+      border-radius:6px;
+      border:none;
+    }
+
+    button{
+      width:100%;
+      padding:12px;
+      background:#4CAF50;
+      border:none;
+      border-radius:8px;
+      color:white;
+      font-weight:bold;
+      cursor:pointer;
+    }
+
+    #status{
+      margin-top:15px;
+      font-size:14px;
+      color:#aaa;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="box">
+
+<h2>ShieldWallet</h2>
+
+<button onclick="connect()">Connect Wallet</button>
+
+<br><br>
+
+<label>Recipient</label>
+<input id="recipient" placeholder="0x..." />
+
+<label>Amount (MON)</label>
+<input id="amount" placeholder="1.0" />
+
+<button onclick="sendShield()">Shield & Send</button>
+
+<div id="status"></div>
+
+</div>
+
+<script>
+
+let signer
+
+async function connect(){
+
+ const provider = new ethers.BrowserProvider(window.ethereum)
+
+ await provider.send("eth_requestAccounts",[])
+
+ signer = await provider.getSigner()
+
+ document.getElementById("status").innerText =
+ "Wallet connected: " + await signer.getAddress()
+}
+
+async function sendShield(){
+
+ const recipient = document.getElementById("recipient").value
+ const amount = document.getElementById("amount").value
+
+ const tx = await signer.sendTransaction({
+   to: recipient,
+   value: ethers.parseEther(amount)
+ })
+
+ document.getElementById("status").innerText =
+ "Transaction sent: " + tx.hash
+}
+
+</script>
+
+</body>
+</html>
