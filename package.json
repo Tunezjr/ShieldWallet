@@ -1,0 +1,12 @@
+{
+  "name": "shieldwallet-sweeper",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "sweep": "node scripts/sweep.js"
+  },
+  "dependencies": {
+    "ethers": "^6.13.2",
+    "solc": "^0.8.26"
+  }
+}
